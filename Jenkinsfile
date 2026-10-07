@@ -39,14 +39,14 @@ pipeline {
             steps {
                 withAWS(
                     credentials: 'aws-credentials',
-                    region: 'us-east-1'
+                    region: 'ap-southeast-1'
                 ) {
 
                     sh '''
                         echo "Checking AWS Identity"
                         aws sts get-caller-identity
                         echo "Updating EKS Kubeconfig"
-                        aws eks update-kubeconfig --name kubernetes-cluster --region us-east-1
+                        aws eks update-kubeconfig --name kubernetes-cluster --region ap-southeast-1
                         echo "Current Kubernetes Context"
                         kubectl config current-context
                     '''
@@ -56,7 +56,7 @@ pipeline {
 
 	stage('Kubernetes Deployment of ASG Bugg Web Application') {
         steps {
-            withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
+            withAWS(credentials: 'aws-credentials', region: 'ap-southeast-1') {
 
             sh 'kubectl get nodes'
             sh 'kubectl delete all --all -n devsecops || true'
@@ -73,7 +73,7 @@ pipeline {
 	   
 	stage('RunDASTUsingZAP') {
     steps {
-        withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
+        withAWS(credentials: 'aws-credentials', region: 'ap-southeast-1') {
 
             sh '''
             pkill -f zap || true
